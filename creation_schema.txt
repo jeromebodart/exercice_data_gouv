@@ -1,0 +1,369 @@
+-- Table: public.adresse_declaree
+
+-- DROP TABLE public.adresse_declaree;
+
+CREATE TABLE public.adresse_declaree
+(
+    id SERIAL PRIMARY KEY,
+    l1_declaree character varying(38) COLLATE pg_catalog."default",
+    l2_declaree character varying(38) COLLATE pg_catalog."default",
+    l4_declaree character varying(38) COLLATE pg_catalog."default",
+    l5_declaree character varying(38) COLLATE pg_catalog."default",
+    l6_declaree character varying(38) COLLATE pg_catalog."default",
+    l7_declaree character varying(38) COLLATE pg_catalog."default",
+    l3_declaree character varying(38) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.adresse_declaree
+    OWNER to postgres;
+
+    -- Table: public.adresse_geographique
+
+-- DROP TABLE public.adresse_geographique;
+
+CREATE TABLE public.adresse_geographique
+(
+    id SERIAL PRIMARY KEY,
+    numvoie character varying(4) COLLATE pg_catalog."default",
+    indrep character varying(1) COLLATE pg_catalog."default",
+    typvoie character varying(4) COLLATE pg_catalog."default",
+    libvoie character varying(32) COLLATE pg_catalog."default",
+    codpos character varying(5) COLLATE pg_catalog."default",
+    cedex character varying(5) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.adresse_geographique
+    OWNER to postgres;
+
+-- Table: public.adresse_normalisee
+
+-- DROP TABLE public.adresse_normalisee;
+
+CREATE TABLE public.adresse_normalisee
+(
+    id SERIAL PRIMARY KEY,
+    l1_normalisee character varying(38) COLLATE pg_catalog."default",
+    l2_normalisee character varying(38) COLLATE pg_catalog."default",
+    l3_normalisee character varying(38) COLLATE pg_catalog."default",
+    l4_normalisee character varying(38) COLLATE pg_catalog."default",
+    l5_normalisee character varying(38) COLLATE pg_catalog."default",
+    l6_normalisee character varying(38) COLLATE pg_catalog."default",
+    l7_normalisee character varying(38) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.adresse_normalisee
+    OWNER to postgres;
+
+    -- Table: public.caracteristiques_economiques_entreprise
+
+-- DROP TABLE public.caracteristiques_economiques_entreprise;
+
+CREATE TABLE public.caracteristiques_economiques_entreprise
+(
+    id SERIAL PRIMARY KEY,
+    nature_juridique character varying(4) COLLATE pg_catalog."default",
+    lib_nature_juridique character varying(100) COLLATE pg_catalog."default",
+    activite_principale character varying(5) COLLATE pg_catalog."default",
+    lib_activite_principale character varying(65) COLLATE pg_catalog."default",
+    annee_validite_activite_principale character varying(4) COLLATE pg_catalog."default",
+    activite_principale_registre_metier character varying(6) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.caracteristiques_economiques_entreprise
+    OWNER to postgres;
+
+-- Table: public.caracteristiques_economiques_etablissement
+
+-- DROP TABLE public.caracteristiques_economiques_etablissement;
+
+CREATE TABLE public.caracteristiques_economiques_etablissement
+(
+    id SERIAL PRIMARY KEY,
+    nature character(1) COLLATE pg_catalog."default",
+    lib_nature character varying(30) COLLATE pg_catalog."default",
+    activite_principale character varying(5) COLLATE pg_catalog."default",
+    lib_activite_principale character varying(65) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.caracteristiques_economiques_etablissement
+    OWNER to postgres;
+
+
+-- Table: public.identification_entreprise
+
+-- DROP TABLE public.identification_entreprise;
+
+CREATE TABLE public.identification_entreprise
+(
+    id SERIAL PRIMARY KEY,
+    raison_sociale character varying(131) COLLATE pg_catalog."default",
+    sigle character varying(20) COLLATE pg_catalog."default",
+    nom character varying(100) COLLATE pg_catalog."default",
+    prenom character varying(30) COLLATE pg_catalog."default",
+    civilite character varying(1) COLLATE pg_catalog."default",
+    repertoire_national_associations character varying(10) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.identification_entreprise
+    OWNER to postgres;
+
+-- Table: public.info_siege
+
+-- DROP TABLE public.info_siege;
+
+CREATE TABLE public.info_siege
+(
+    id SERIAL PRIMARY KEY,
+    nic character varying(5) COLLATE pg_catalog."default",
+    code_region character varying(2) COLLATE pg_catalog."default",
+    departement_commune character varying(5) COLLATE pg_catalog."default",
+    email character varying(80) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.info_siege
+    OWNER to postgres;
+
+-- Table: public.informations_etablissement
+
+-- DROP TABLE public.informations_etablissement;
+
+CREATE TABLE public.informations_etablissement
+(
+    id SERIAL PRIMARY KEY,
+    enseigne character varying(50) COLLATE pg_catalog."default",
+    ind_publipo character varying(1) COLLATE pg_catalog."default",
+    siege character varying(1) COLLATE pg_catalog."default",
+    statut_diffusion character varying(1) COLLATE pg_catalog."default",
+    date_diffusion_base character varying(6) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.informations_etablissement
+    OWNER to postgres;
+
+-- Table: public.localisation_geographique
+
+-- DROP TABLE public.localisation_geographique;
+
+CREATE TABLE public.localisation_geographique
+(
+    id SERIAL PRIMARY KEY,
+    region character varying(2) COLLATE pg_catalog."default",
+    lib_region character varying(70) COLLATE pg_catalog."default",
+    departement character varying(2) COLLATE pg_catalog."default",
+    arrondissement character varying(2) COLLATE pg_catalog."default",
+    canton character varying(3) COLLATE pg_catalog."default",
+    commune character varying(3) COLLATE pg_catalog."default",
+    lib_commune character varying(32) COLLATE pg_catalog."default",
+    departement_unite_urbaine character varying(2) COLLATE pg_catalog."default",
+    taille_unite_urbaine character varying(1) COLLATE pg_catalog."default",
+    num_unite_urbaine character varying(2) COLLATE pg_catalog."default",
+    epci character varying(9) COLLATE pg_catalog."default",
+    tcd character varying(2) COLLATE pg_catalog."default",
+    zemet character varying(4) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.localisation_geographique
+    OWNER to postgres;
+
+-- Table: public.updates
+
+-- DROP TABLE public.updates;
+
+CREATE TABLE public.updates
+(
+    id SERIAL PRIMARY KEY,
+    date character varying(19) COLLATE pg_catalog."default",
+    modification_activite_etablissement character varying(1) COLLATE pg_catalog."default",
+    modification_nature_etablissement character varying(1) COLLATE pg_catalog."default",
+    modification_entreprise character varying(1) COLLATE pg_catalog."default",
+    nature_update character varying(1) COLLATE pg_catalog."default"
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.updates
+    OWNER to postgres;
+
+-- Table: public.entreprise
+
+-- DROP TABLE public.entreprise;
+
+CREATE TABLE public.entreprise
+(
+    id SERIAL PRIMARY KEY,
+    siren character varying(9) COLLATE pg_catalog."default",
+    id_siege integer NOT NULL,
+    id_identification_entreprise integer,
+    id_caracteristiques integer,
+    CONSTRAINT id_caracteristiques FOREIGN KEY (id_caracteristiques)
+        REFERENCES public.caracteristiques_economiques_entreprise (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_identification_entreprise FOREIGN KEY (id_identification_entreprise)
+        REFERENCES public.identification_entreprise (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_siege FOREIGN KEY (id_siege)
+        REFERENCES public.info_siege (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.entreprise
+    OWNER to postgres;
+
+-- Table: public.etablissement
+
+-- DROP TABLE public.etablissement;
+
+CREATE TABLE public.etablissement
+(
+    id SERIAL PRIMARY KEY,    
+    id_entreprise integer,
+    nic character varying(5) COLLATE pg_catalog."default",
+    id_adresse_declaree integer,
+    id_adresse_normalisee integer,
+    id_info integer,
+    id_adresse_geographique integer,
+    id_localisation_geographique integer,
+    id_caracteristiques_economiques integer,
+    id_updates integer,
+    CONSTRAINT id_entreprise FOREIGN KEY (id_entreprise)
+        REFERENCES public.entreprise (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_adresse_declaree FOREIGN KEY (id_adresse_declaree)
+        REFERENCES public.adresse_declaree (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_adresse_geographique FOREIGN KEY (id_adresse_geographique)
+        REFERENCES public.adresse_geographique (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_adresse_normalisee FOREIGN KEY (id_adresse_normalisee)
+        REFERENCES public.adresse_normalisee (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_caracteristiques_economiques FOREIGN KEY (id_caracteristiques_economiques)
+        REFERENCES public.caracteristiques_economiques_etablissement (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_info FOREIGN KEY (id_info)
+        REFERENCES public.informations_etablissement (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_localisation_geographique FOREIGN KEY (id_localisation_geographique)
+        REFERENCES public.localisation_geographique (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_updates FOREIGN KEY (id_updates)
+        REFERENCES public.updates (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.etablissement
+    OWNER to postgres;
+
+-- Table: public.etablissement_join_updates
+
+-- DROP TABLE public.etablissement_join_updates;
+
+CREATE TABLE public.etablissement_join_updates
+(
+    id SERIAL PRIMARY KEY,
+    id_etablisssement integer,
+    id_updates integer,
+    CONSTRAINT id_etablissement FOREIGN KEY (id_etablisssement)
+    REFERENCES public.etablissement (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT id_updates FOREIGN KEY (id_updates)
+    REFERENCES public.updates (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.etablissement_join_updates
+    OWNER to postgres;
+
+CREATE UNIQUE INDEX valeur_identification_entreprise 
+ON identification_entreprise (raison_sociale, sigle, nom, prenom, civilite, repertoire_national_associations);
+CREATE UNIQUE INDEX valeur_caracteristiques_economiques_entreprise
+ON caracteristiques_economiques_entreprise (nature_juridique, lib_nature_juridique, activite_principale, lib_activite_principale, annee_validite_activite_principale, activite_principale_registre_metier);
+CREATE UNIQUE INDEX valeur_info_siege
+ON info_siege (nic, code_region, departement_commune, email);
+CREATE UNIQUE INDEX valeur_adresse_declaree   
+ON adresse_declaree (l1_declaree, l2_declaree, l3_declaree,l4_declaree, l5_declaree, l6_declaree, l7_declaree);
+CREATE UNIQUE INDEX valeur_adresse_normalisee   
+ON adresse_normalisee (l1_normalisee, l2_normalisee, l3_normalisee,l4_normalisee, l5_normalisee, l6_normalisee, l7_normalisee);
+CREATE UNIQUE INDEX valeur_informations_etablissement
+ON informations_etablissement (enseigne, ind_publipo, siege, statut_diffusion, date_diffusion_base);
+CREATE UNIQUE INDEX valeur_adresse_geographique
+ON adresse_geographique (numvoie, indrep, typvoie, libvoie, codpos, cedex);
+CREATE UNIQUE INDEX valeur_localisation_geographique
+ON localisation_geographique (region, lib_region, departement, arrondissement, canton, commune, lib_commune, departement_unite_urbaine, taille_unite_urbaine, num_unite_urbaine, epci, tcd, zemet);
+CREATE UNIQUE INDEX valeur_caracteristiques_economiques_etablissement
+ON caracteristiques_economiques_etablissement (nature, lib_nature, activite_principale, lib_activite_principale); 
+CREATE UNIQUE INDEX valeur_updates
+ON updates (nature_update, modification_activite_etablissement, modification_nature_etablissement, modification_entreprise, date);
+CREATE UNIQUE INDEX valeur_etablissement_join_updates
+ON etablissement_join_updates (id_updates, id_etablissement);
+CREATE UNIQUE INDEX valeur_etablissement
+ON etablissement (id_entreprise, nic);
+-- Ligne ajoutée pour pouvoir définir "SIREN" comme clé primaire (voir "Identification_Contrainte_Supplémentaire_table_entreprise.xls")
+-- Contrainte insuffisante initiale : 
+-- CREATE UNIQUE INDEX valeur_entreprise 
+-- ON entreprise (id_siege, id_identification_entreprise, id_caracteristiques);
+CREATE UNIQUE INDEX valeur_entreprise
+ON entreprise (siren);

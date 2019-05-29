@@ -1,0 +1,223 @@
+﻿SELECT oid, *  FROM sirene_only_updates ORDER BY oid  LIMIT 5 ;
+-- 11391156
+SELECT oid, *  FROM sirene_only_updates ORDER BY oid  DESC LIMIT 5 ;
+-- 11791677
+INSERT INTO caracteristiques_economiques_entreprise (nature_juridique, lib_nature_juridique, activite_principale, lib_activite_principale, annee_validite_activite_principale, activite_principale_registre_metier) 
+SELECT DISTINCT nj, libnj, apen700, libapen, dapen, aprm
+FROM sirene_only_updates
+WHERE 
+oid BETWEEN 11391156 and 11400000
+ON CONFLICT DO NOTHING;
+
+-- Other possibility found to avoid conflict with reduncance : WHERE NOT EXISTS (SELECT ....)
+-- ==> https://stackoverflow.com/questions/33107470/inserting-unique-values-in-postgresql
+
+SELECT * FROM caracteristiques_economiques_entreprise  LIMIT 5;
+
+INSERT INTO identification_entreprise (raison_sociale, sigle, nom, prenom, civilite, repertoire_national_associations)
+SELECT DISTINCT NOMEN_LONG, SIGLE, NOM, PRENOM, CIVILITE, RNA
+FROM sirene_only_updates
+WHERE 
+oid BETWEEN 11391156 and 11400000
+ON CONFLICT DO NOTHING;
+
+SELECT * FROM identification_entreprise LIMIT 5;
+
+INSERT INTO info_siege (nic, code_region, departement_commune, email)
+SELECT DISTINCT NICSIEGE, RPEN, DEPCOMEN, ADR_MAIL
+FROM sirene_only_updates
+WHERE 
+oid BETWEEN 11391156 and 11400000
+ON CONFLICT DO NOTHING;
+
+
+SELECT * FROM info_siege LIMIT 5;
+-- ==> Problème : SIREN n'est finalement pas clés unique de la table entreprise
+
+Parcous bdd sirene_only_updates
+INSERT INTO entreprise (siren, id_siege, id_identification_entreprise, id_caracteristiques)
+SELECT ENTREPRISES.siren, ENTREPRISES.INFO, ENTREPRISES.IDENT, ENTREPRISES.CARAC
+FROM
+(SELECT DISTINCT sirene_only_updates.siren,
+(SELECT id FROM info_siege WHERE info_siege.nic=sirene_only_updates.nicsiege  AND info_siege.code_region=sirene_only_updates.rpen AND info_siege.departement_commune=sirene_only_updates.depcomen AND info_siege.email=sirene_only_updates.adr_mail)::integer AS INFO,
+(SELECT id FROM identification_entreprise WHERE identification_entreprise.raison_sociale=sirene_only_updates.nomen_long AND identification_entreprise.sigle=sirene_only_updates.sigle AND identification_entreprise.nom=sirene_only_updates.nom AND identification_entreprise.prenom=sirene_only_updates.prenom
+AND identification_entreprise.civilite=sirene_only_updates.civilite AND identification_entreprise.repertoire_national_associations=sirene_only_updates.rna)::integer AS IDENT,
+(SELECT id FROM caracteristiques_economiques_entreprise WHERE 
+caracteristiques_economiques_entreprise.nature_juridique=sirene_only_updates.nj AND
+caracteristiques_economiques_entreprise.lib_nature_juridique=sirene_only_updates.libnj AND
+caracteristiques_economiques_entreprise.activite_principale=sirene_only_updates.apen700 AND 
+caracteristiques_economiques_entreprise.lib_activite_principale=sirene_only_updates.libapen AND
+caracteristiques_economiques_entreprise.annee_validite_activite_principale=sirene_only_updates.dapen AND
+caracteristiques_economiques_entreprise.activite_principale_registre_metier=sirene_only_updates.aprm)::integer AS CARAC
+FROM sirene_only_updates
+WHERE 
+oid BETWEEN 11391156 and 11400000
+GROUP BY sirene_only_updates.siren, INFO, IDENT, CARAC) AS ENTREPRISES
+ON CONFLICT DO NOTHING;
+
+SELECT * FROM entreprise LIMIT 5;
+
+
+INSERT INTO adresse_declaree (l1_declaree, l2_declaree, l3_declaree, l4_declaree, l5_declaree, l6_declaree, l7_declaree)
+SELECT DISTINCT l1_declaree, l2_declaree, l3_declaree, l4_declaree, l5_declaree, l6_declaree, l7_declaree
+FROM sirene_only_updates 
+WHERE 
+oid BETWEEN 11391156 and 11400000
+ON CONFLICT DO NOTHING;
+
+SELECT * FROM adresse_declaree LIMIT 5;
+
+INSERT INTO adresse_normalisee (l1_normalisee, l2_normalisee, l3_normalisee, l4_normalisee, l5_normalisee, l6_normalisee, l7_normalisee)
+SELECT DISTINCT l1_normalisee, l2_normalisee, l3_normalisee, l4_normalisee, l5_normalisee, l6_normalisee, l7_normalisee
+FROM sirene_only_updates 
+WHERE 
+oid BETWEEN 11391156 and 11400000
+ON CONFLICT DO NOTHING;
+
+SELECT * FROM adresse_normalisee LIMIT 5;
+
+
+INSERT INTO informations_etablissement (enseigne, ind_publipo, siege, statut_diffusion, date_diffusion_base)
+SELECT DISTINCT enseigne, ind_publipo, siege, diffcom, amintret
+FROM sirene_only_updates 
+WHERE 
+oid BETWEEN 11391156 and 11400000
+ON CONFLICT DO NOTHING;
+
+SELECT * FROM informations_etablissement LIMIT 5;
+
+INSERT INTO adresse_geographique (numvoie, indrep, typvoie, libvoie, codpos, cedex)
+SELECT DISTINCT numvoie, indrep, typvoie, libvoie, codpos, cedex
+FROM sirene_only_updates 
+WHERE 
+oid BETWEEN 11391156 and 11400000
+ON CONFLICT DO NOTHING;
+
+SELECT * FROM adresse_geographique LIMIT 5;
+
+
+INSERT INTO localisation_geographique (region, lib_region, departement, arrondissement, canton, commune, lib_commune, departement_unite_urbaine, taille_unite_urbaine, num_unite_urbaine, epci, tcd, zemet)
+SELECT DISTINCT RPET, LIBREG, DEPET, ARRONET, CTONET, COMET, LIBCOM, DU, TU, UU, EPCI, TCD, ZEMET
+FROM sirene_only_updates 
+WHERE 
+oid BETWEEN 11391156 and 11400000
+ON CONFLICT DO NOTHING;
+
+SELECT * FROM localisation_geographique LIMIT 5;
+
+
+INSERT INTO caracteristiques_economiques_etablissement (nature, lib_nature, activite_principale, lib_activite_principale)
+SELECT DISTINCT NATETAB, LIBNATETAB, APET700, LIBAPET
+FROM sirene_only_updates 
+WHERE 
+oid BETWEEN 11391156 and 11400000
+ON CONFLICT DO NOTHING;
+
+
+SELECT * FROM caracteristiques_economiques_etablissement LIMIT 5;
+
+
+
+-- Pour la table updates il faut prendre les données dans la base sirene
+SELECT oid, *  FROM sirene ORDER BY oid  LIMIT 5 ;
+-- oid start at 25470
+SELECT oid, *  FROM sirene ORDER BY oid  DESC LIMIT 5 ;
+-- oid end  at 11390112
+INSERT INTO updates (nature_update, modification_activite_etablissement, modification_nature_etablissement, modification_entreprise, date)
+SELECT DISTINCT VMAJ, VMAJ1, VMAJ2, VMAJ3, DATEMAJ
+FROM sirene 
+WHERE 
+-- oid BETWEEN 25470 and 11390112 AND
+sirene.VMAJ!='' OR 
+sirene.VMAJ1!='' OR
+sirene.VMAJ2!='' OR
+sirene.VMAJ3!=''
+ON CONFLICT DO NOTHING;
+
+SELECT * FROM updates LIMIT 5;
+
+
+INSERT INTO etablissement (nic, id_entreprise, id_adresse_declaree, id_adresse_normalisee, id_info, id_adresse_geographique, id_localisation_geographique, id_caracteristiques_economiques)
+SELECT ETABLISSEMENT.NIC, ETABLISSEMENT.SIREN,  ETABLISSEMENT.ADRDCL, ETABLISSEMENT.ADRNORM, ETABLISSEMENT.INFO, ETABLISSEMENT.ADRGEO, ETABLISSEMENT.LOCGEO, ETABLISSEMENT.CARACECO
+FROM
+(SELECT sirene_only_updates.nic::varchar,
+(SELECT id FROM entreprise WHERE entreprise.siren=sirene_only_updates.siren)::integer AS SIREN,
+(SELECT id FROM adresse_declaree WHERE adresse_declaree.l1_declaree=sirene_only_updates.l1_declaree AND 
+adresse_declaree.l2_declaree=sirene_only_updates.l2_declaree AND
+adresse_declaree.l3_declaree=sirene_only_updates.l3_declaree AND
+adresse_declaree.l4_declaree=sirene_only_updates.l4_declaree AND
+adresse_declaree.l5_declaree=sirene_only_updates.l5_declaree AND
+adresse_declaree.l6_declaree=sirene_only_updates.l6_declaree AND
+adresse_declaree.l7_declaree=sirene_only_updates.l7_declaree)::integer AS ADRDCL,
+(SELECT id FROM adresse_normalisee WHERE adresse_normalisee.l1_normalisee=sirene_only_updates.l1_normalisee AND 
+adresse_normalisee.l2_normalisee=sirene_only_updates.l2_normalisee AND
+adresse_normalisee.l3_normalisee=sirene_only_updates.l3_normalisee AND
+adresse_normalisee.l4_normalisee=sirene_only_updates.l4_normalisee AND
+adresse_normalisee.l5_normalisee=sirene_only_updates.l5_normalisee AND
+adresse_normalisee.l6_normalisee=sirene_only_updates.l6_normalisee AND
+adresse_normalisee.l7_normalisee=sirene_only_updates.l7_normalisee)::integer AS ADRNORM,
+(SELECT id FROM informations_etablissement 
+WHERE 
+informations_etablissement.enseigne=sirene_only_updates.enseigne AND 
+informations_etablissement.siege=sirene_only_updates.siege AND 
+informations_etablissement.ind_publipo=sirene_only_updates.ind_publipo AND 
+informations_etablissement.statut_diffusion=sirene_only_updates.diffcom AND 
+informations_etablissement.date_diffusion_base=sirene_only_updates.amintret)::integer AS INFO,
+(SELECT id FROM adresse_geographique 
+WHERE 
+adresse_geographique.numvoie=sirene_only_updates.numvoie AND 
+adresse_geographique.indrep=sirene_only_updates.indrep AND 
+adresse_geographique.typvoie=sirene_only_updates.typvoie AND 
+adresse_geographique.libvoie=sirene_only_updates.libvoie AND
+adresse_geographique.codpos=sirene_only_updates.codpos AND 
+adresse_geographique.cedex=sirene_only_updates.cedex)::integer AS ADRGEO,
+(SELECT id FROM localisation_geographique 
+WHERE 
+localisation_geographique.region=sirene_only_updates.RPET AND 
+localisation_geographique.lib_region=sirene_only_updates.LIBREG AND 
+localisation_geographique.departement=sirene_only_updates.DEPET AND 
+localisation_geographique.arrondissement=sirene_only_updates.ARRONET AND
+localisation_geographique.canton=sirene_only_updates.CTONET AND 
+localisation_geographique.commune=sirene_only_updates.COMET AND
+localisation_geographique.lib_commune=sirene_only_updates.LIBCOM AND  
+localisation_geographique.departement_unite_urbaine=sirene_only_updates.DU AND 
+localisation_geographique.taille_unite_urbaine=sirene_only_updates.TU AND 
+localisation_geographique.num_unite_urbaine=sirene_only_updates.UU AND 
+localisation_geographique.epci=sirene_only_updates.EPCI AND 
+localisation_geographique.tcd=sirene_only_updates.TCD AND 
+localisation_geographique.zemet=sirene_only_updates.ZEMET)::integer AS LOCGEO,
+(SELECT id FROM caracteristiques_economiques_etablissement 
+WHERE 
+caracteristiques_economiques_etablissement.nature=sirene_only_updates.NATETAB AND 
+caracteristiques_economiques_etablissement.lib_nature=sirene_only_updates.LIBNATETAB AND 
+caracteristiques_economiques_etablissement.activite_principale=sirene_only_updates.APET700 AND 
+caracteristiques_economiques_etablissement.lib_activite_principale=sirene_only_updates.LIBAPET)::integer AS CARACECO
+FROM sirene_only_updates
+WHERE 
+oid BETWEEN 11391156 and 11400000
+GROUP BY sirene_only_updates.nic::varchar, SIREN, ADRDCL, ADRNORM, INFO, ADRGEO, LOCGEO, CARACECO) AS ETABLISSEMENT
+ON CONFLICT DO NOTHING;
+
+  
+SELECT * FROM etablissement LIMIT 5;
+
+SELECT COUNT(*) FROM etablissement;
+-- Done bien 8844 = 11400000-11391156
+
+-- Pour la table updates il faut prendre les données dans la base sirene
+
+INSERT INTO etablissement_join_updates (id_updates, id_etablissement)
+SELECT updates.id, etablissement.id FROM sirene
+INNER JOIN updates
+ON
+sirene.VMAJ=updates.nature_update AND
+sirene.VMAJ1=updates.modification_activite_etablissement AND
+sirene.VMAJ2=updates.modification_nature_etablissement AND
+sirene.VMAJ3=updates.modification_entreprise AND
+sirene.DATEMAJ=updates.date 
+INNER JOIN etablissement
+ON
+sirene.siren=(SELECT DISTINCT entreprise.siren FROM entreprise WHERE entreprise.siren=sirene.siren) AND 
+sirene.nic=etablissement.nic;
+
+SELECT * FROM etablissement_join_updates LIMIT 5;
