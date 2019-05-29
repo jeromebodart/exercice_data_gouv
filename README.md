@@ -1,4 +1,8 @@
 # exercice_data_gouv
+
+Create an application and exploit record of all companies and their building in France (SIREN, SIRET)
+[end of the 30d of april 2019] 
+
 +-2weeks project
 
 This work is a training to :
