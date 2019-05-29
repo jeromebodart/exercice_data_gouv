@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.IdentificationEntrepriseMapper">
+
+
+    <resultMap id="IdentificationEntreprise_ResultMap" type="com.example.domain.entreprise.IdentificationEntreprise">
+        <id 	property="id" 						column="id" />
+        <result property="raison_sociale" 			column="raison_social" />
+        <result property="sigle" 			column="sigle" />
+        <result property="prenom" 			column="prenom" />
+        <result property="nom" 			column="nom" />
+        <result property="civilite" 			column="civilite" />
+        <result property="repertoire_nationale_associations" 			column="repertoire_nationale_associations" />
+    </resultMap>
+
+<select id="get" resultType="com.example.domain.entreprise.IdentificationEntreprise" resultMap="IdentificationEntreprise_ResultMap">
+    select * from identification_entreprise where identification_entreprise.id= #{id}
+</select>
+
+</mapper>

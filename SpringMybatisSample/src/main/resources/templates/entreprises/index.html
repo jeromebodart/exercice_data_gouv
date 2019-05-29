@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+  <head>
+    <title>Listing entreprises</title>
+  </head>
+  <body>
+    <div class="panel panel-primary" layout:fragment="content">
+      <div class="panel-heading">
+        Listing entreprises
+        <a href="/entreprises/new" class="btn btn-default btn-xs pull-right">New</a>
+      </div>
+      <div class="panel-body" th:if="!${entreprises.size()}">
+        <p>entreprises are empty</p>
+      </div>
+      <table class="table" th:if="${entreprises.size()}">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>siren</th>
+            <th>nic siege</th>
+            <th>nom</th>
+            <th>prenom</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="entreprise:${entreprises}" th:object="${entreprise}">
+            <td th:text="*{id}"></td>
+            <td th:text="*{siren}"></td>
+            <td th:text="*{siege.nic}"></td>
+            <td th:text="*{identification_entreprise.nom}"></td>
+            <td th:text="*{identification_entreprise.prenom}"></td>
+            <td><a class="btn btn-default btn-xs" th:href="@{/entreprises/{id}(id=*{id})}">Show</a></td>
+            <td><a class="btn btn-default btn-xs" th:href="@{/entreprises/{id}/edit(id=*{id})}">Edit</a></td>
+            <td>
+              <form th:action="@{/entreprises/{id}(id=*{id})}" th:method="delete">
+                <button class="btn btn-default btn-xs">Destory</button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
