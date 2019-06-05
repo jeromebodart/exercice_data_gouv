@@ -1,4 +1,4 @@
-# exercice_data_gouv
+# exercice_data_gouv_model_creation_and_migration
 
 Create an application and exploit record of all companies and their building in France (SIREN, SIRET)
 [end of the 30d of april 2019] 
@@ -8,7 +8,6 @@ Create an application and exploit record of all companies and their building in 
 This work is a training to :
 - think and create a sql model
 - migrate, filter and exploit large data (+11 millions lines)
-- create a java crud interface adapt to interract with the new model
 
 The database choosed for this work can be found at : 
  "BDD" : https://www.data.gouv.fr/fr/datasets/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret-fin-le-30-avril-2019/#_
@@ -30,13 +29,12 @@ of the model.
 - Only last updates (exploit timestamp in last column)
 
 ==> Insertt the first 400 002 lines only
-Work that remain :
 
 6) Transfer data (except concerning updates) from the new database to the model using SQL in postgres 
 ==>("script_insertion_donnees.txt")
+Not need because no updates found in the first 400 002 lines
 
 7) Execute java to transfer all the data
 ==> DataLoader.java
 *String querries have to be updated 
 8) For each establishment add updates than have been made using the former database
-9) Create MyBatis app that interract with the database
